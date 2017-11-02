@@ -14,7 +14,7 @@ namespace hoshizora::compress::single {
  * encode
  */
 static u32 encode(const u32 *__restrict const in, const u32 size,
-                         u8 *__restrict const out) {
+                  u8 *__restrict const out) {
   if (size > 0) {
     u32 in_offset = 0;
     u32 out_offset = 0;
@@ -194,7 +194,6 @@ static u32 estimate(const u32 *__restrict const in, const u32 size) {
   return out_offset;
 }
 
-
 /*
  * decode
  */
@@ -255,139 +254,139 @@ static inline u8 ungap(const u8 *__restrict const in, const u32 prev,
   return total;
 }
 
-const static function<u8(const u8 *__restrict const, const u32, u32 *__restrict const)> ungaps[256] = {
-  ungap<0, 0, 0, 0, 0, 0, 0>, ungap<1, 0, 0, 0, 0, 0, 0>,
-  ungap<0, 1, 0, 0, 0, 0, 0>, ungap<1, 1, 0, 0, 0, 0, 0>,
-  ungap<0, 0, 1, 0, 0, 0, 0>, ungap<1, 0, 1, 0, 0, 0, 0>,
-  ungap<0, 1, 1, 0, 0, 0, 0>, ungap<1, 1, 1, 0, 0, 0, 0>,
-  ungap<0, 0, 0, 1, 0, 0, 0>, ungap<1, 0, 0, 1, 0, 0, 0>,
-  ungap<0, 1, 0, 1, 0, 0, 0>, ungap<1, 1, 0, 1, 0, 0, 0>,
-  ungap<0, 0, 1, 1, 0, 0, 0>, ungap<1, 0, 1, 1, 0, 0, 0>,
-  ungap<0, 1, 1, 1, 0, 0, 0>, ungap<1, 1, 1, 1, 0, 0, 0>,
-  ungap<0, 0, 0, 0, 1, 0, 0>, ungap<1, 0, 0, 0, 1, 0, 0>,
-  ungap<0, 1, 0, 0, 1, 0, 0>, ungap<1, 1, 0, 0, 1, 0, 0>,
-  ungap<0, 0, 1, 0, 1, 0, 0>, ungap<1, 0, 1, 0, 1, 0, 0>,
-  ungap<0, 1, 1, 0, 1, 0, 0>, ungap<1, 1, 1, 0, 1, 0, 0>,
-  ungap<0, 0, 0, 1, 1, 0, 0>, ungap<1, 0, 0, 1, 1, 0, 0>,
-  ungap<0, 1, 0, 1, 1, 0, 0>, ungap<1, 1, 0, 1, 1, 0, 0>,
-  ungap<0, 0, 1, 1, 1, 0, 0>, ungap<1, 0, 1, 1, 1, 0, 0>,
-  ungap<0, 1, 1, 1, 1, 0, 0>, ungap<1, 1, 1, 1, 1, 0, 0>,
-  ungap<0, 0, 0, 0, 0, 1, 0>, ungap<1, 0, 0, 0, 0, 1, 0>,
-  ungap<0, 1, 0, 0, 0, 1, 0>, ungap<1, 1, 0, 0, 0, 1, 0>,
-  ungap<0, 0, 1, 0, 0, 1, 0>, ungap<1, 0, 1, 0, 0, 1, 0>,
-  ungap<0, 1, 1, 0, 0, 1, 0>, ungap<1, 1, 1, 0, 0, 1, 0>,
-  ungap<0, 0, 0, 1, 0, 1, 0>, ungap<1, 0, 0, 1, 0, 1, 0>,
-  ungap<0, 1, 0, 1, 0, 1, 0>, ungap<1, 1, 0, 1, 0, 1, 0>,
-  ungap<0, 0, 1, 1, 0, 1, 0>, ungap<1, 0, 1, 1, 0, 1, 0>,
-  ungap<0, 1, 1, 1, 0, 1, 0>, ungap<1, 1, 1, 1, 0, 1, 0>,
-  ungap<0, 0, 0, 0, 1, 1, 0>, ungap<1, 0, 0, 0, 1, 1, 0>,
-  ungap<0, 1, 0, 0, 1, 1, 0>, ungap<1, 1, 0, 0, 1, 1, 0>,
-  ungap<0, 0, 1, 0, 1, 1, 0>, ungap<1, 0, 1, 0, 1, 1, 0>,
-  ungap<0, 1, 1, 0, 1, 1, 0>, ungap<1, 1, 1, 0, 1, 1, 0>,
-  ungap<0, 0, 0, 1, 1, 1, 0>, ungap<1, 0, 0, 1, 1, 1, 0>,
-  ungap<0, 1, 0, 1, 1, 1, 0>, ungap<1, 1, 0, 1, 1, 1, 0>,
-  ungap<0, 0, 1, 1, 1, 1, 0>, ungap<1, 0, 1, 1, 1, 1, 0>,
-  ungap<0, 1, 1, 1, 1, 1, 0>, ungap<1, 1, 1, 1, 1, 1, 0>,
-  ungap<0, 0, 0, 0, 0, 0, 1>, ungap<1, 0, 0, 0, 0, 0, 1>,
-  ungap<0, 1, 0, 0, 0, 0, 1>, ungap<1, 1, 0, 0, 0, 0, 1>,
-  ungap<0, 0, 1, 0, 0, 0, 1>, ungap<1, 0, 1, 0, 0, 0, 1>,
-  ungap<0, 1, 1, 0, 0, 0, 1>, ungap<1, 1, 1, 0, 0, 0, 1>,
-  ungap<0, 0, 0, 1, 0, 0, 1>, ungap<1, 0, 0, 1, 0, 0, 1>,
-  ungap<0, 1, 0, 1, 0, 0, 1>, ungap<1, 1, 0, 1, 0, 0, 1>,
-  ungap<0, 0, 1, 1, 0, 0, 1>, ungap<1, 0, 1, 1, 0, 0, 1>,
-  ungap<0, 1, 1, 1, 0, 0, 1>, ungap<1, 1, 1, 1, 0, 0, 1>,
-  ungap<0, 0, 0, 0, 1, 0, 1>, ungap<1, 0, 0, 0, 1, 0, 1>,
-  ungap<0, 1, 0, 0, 1, 0, 1>, ungap<1, 1, 0, 0, 1, 0, 1>,
-  ungap<0, 0, 1, 0, 1, 0, 1>, ungap<1, 0, 1, 0, 1, 0, 1>,
-  ungap<0, 1, 1, 0, 1, 0, 1>, ungap<1, 1, 1, 0, 1, 0, 1>,
-  ungap<0, 0, 0, 1, 1, 0, 1>, ungap<1, 0, 0, 1, 1, 0, 1>,
-  ungap<0, 1, 0, 1, 1, 0, 1>, ungap<1, 1, 0, 1, 1, 0, 1>,
-  ungap<0, 0, 1, 1, 1, 0, 1>, ungap<1, 0, 1, 1, 1, 0, 1>,
-  ungap<0, 1, 1, 1, 1, 0, 1>, ungap<1, 1, 1, 1, 1, 0, 1>,
-  ungap<0, 0, 0, 0, 0, 1, 1>, ungap<1, 0, 0, 0, 0, 1, 1>,
-  ungap<0, 1, 0, 0, 0, 1, 1>, ungap<1, 1, 0, 0, 0, 1, 1>,
-  ungap<0, 0, 1, 0, 0, 1, 1>, ungap<1, 0, 1, 0, 0, 1, 1>,
-  ungap<0, 1, 1, 0, 0, 1, 1>, ungap<1, 1, 1, 0, 0, 1, 1>,
-  ungap<0, 0, 0, 1, 0, 1, 1>, ungap<1, 0, 0, 1, 0, 1, 1>,
-  ungap<0, 1, 0, 1, 0, 1, 1>, ungap<1, 1, 0, 1, 0, 1, 1>,
-  ungap<0, 0, 1, 1, 0, 1, 1>, ungap<1, 0, 1, 1, 0, 1, 1>,
-  ungap<0, 1, 1, 1, 0, 1, 1>, ungap<1, 1, 1, 1, 0, 1, 1>,
-  ungap<0, 0, 0, 0, 1, 1, 1>, ungap<1, 0, 0, 0, 1, 1, 1>,
-  ungap<0, 1, 0, 0, 1, 1, 1>, ungap<1, 1, 0, 0, 1, 1, 1>,
-  ungap<0, 0, 1, 0, 1, 1, 1>, ungap<1, 0, 1, 0, 1, 1, 1>,
-  ungap<0, 1, 1, 0, 1, 1, 1>, ungap<1, 1, 1, 0, 1, 1, 1>,
-  ungap<0, 0, 0, 1, 1, 1, 1>, ungap<1, 0, 0, 1, 1, 1, 1>,
-  ungap<0, 1, 0, 1, 1, 1, 1>, ungap<1, 1, 0, 1, 1, 1, 1>,
-  ungap<0, 0, 1, 1, 1, 1, 1>, ungap<1, 0, 1, 1, 1, 1, 1>,
-  ungap<0, 1, 1, 1, 1, 1, 1>, ungap<1, 1, 1, 1, 1, 1, 1>,
-  ungap<0, 0, 0, 0, 0, 0, 0>, ungap<1, 0, 0, 0, 0, 0, 0>,
-  ungap<0, 1, 0, 0, 0, 0, 0>, ungap<1, 1, 0, 0, 0, 0, 0>,
-  ungap<0, 0, 1, 0, 0, 0, 0>, ungap<1, 0, 1, 0, 0, 0, 0>,
-  ungap<0, 1, 1, 0, 0, 0, 0>, ungap<1, 1, 1, 0, 0, 0, 0>,
-  ungap<0, 0, 0, 1, 0, 0, 0>, ungap<1, 0, 0, 1, 0, 0, 0>,
-  ungap<0, 1, 0, 1, 0, 0, 0>, ungap<1, 1, 0, 1, 0, 0, 0>,
-  ungap<0, 0, 1, 1, 0, 0, 0>, ungap<1, 0, 1, 1, 0, 0, 0>,
-  ungap<0, 1, 1, 1, 0, 0, 0>, ungap<1, 1, 1, 1, 0, 0, 0>,
-  ungap<0, 0, 0, 0, 1, 0, 0>, ungap<1, 0, 0, 0, 1, 0, 0>,
-  ungap<0, 1, 0, 0, 1, 0, 0>, ungap<1, 1, 0, 0, 1, 0, 0>,
-  ungap<0, 0, 1, 0, 1, 0, 0>, ungap<1, 0, 1, 0, 1, 0, 0>,
-  ungap<0, 1, 1, 0, 1, 0, 0>, ungap<1, 1, 1, 0, 1, 0, 0>,
-  ungap<0, 0, 0, 1, 1, 0, 0>, ungap<1, 0, 0, 1, 1, 0, 0>,
-  ungap<0, 1, 0, 1, 1, 0, 0>, ungap<1, 1, 0, 1, 1, 0, 0>,
-  ungap<0, 0, 1, 1, 1, 0, 0>, ungap<1, 0, 1, 1, 1, 0, 0>,
-  ungap<0, 1, 1, 1, 1, 0, 0>, ungap<1, 1, 1, 1, 1, 0, 0>,
-  ungap<0, 0, 0, 0, 0, 1, 0>, ungap<1, 0, 0, 0, 0, 1, 0>,
-  ungap<0, 1, 0, 0, 0, 1, 0>, ungap<1, 1, 0, 0, 0, 1, 0>,
-  ungap<0, 0, 1, 0, 0, 1, 0>, ungap<1, 0, 1, 0, 0, 1, 0>,
-  ungap<0, 1, 1, 0, 0, 1, 0>, ungap<1, 1, 1, 0, 0, 1, 0>,
-  ungap<0, 0, 0, 1, 0, 1, 0>, ungap<1, 0, 0, 1, 0, 1, 0>,
-  ungap<0, 1, 0, 1, 0, 1, 0>, ungap<1, 1, 0, 1, 0, 1, 0>,
-  ungap<0, 0, 1, 1, 0, 1, 0>, ungap<1, 0, 1, 1, 0, 1, 0>,
-  ungap<0, 1, 1, 1, 0, 1, 0>, ungap<1, 1, 1, 1, 0, 1, 0>,
-  ungap<0, 0, 0, 0, 1, 1, 0>, ungap<1, 0, 0, 0, 1, 1, 0>,
-  ungap<0, 1, 0, 0, 1, 1, 0>, ungap<1, 1, 0, 0, 1, 1, 0>,
-  ungap<0, 0, 1, 0, 1, 1, 0>, ungap<1, 0, 1, 0, 1, 1, 0>,
-  ungap<0, 1, 1, 0, 1, 1, 0>, ungap<1, 1, 1, 0, 1, 1, 0>,
-  ungap<0, 0, 0, 1, 1, 1, 0>, ungap<1, 0, 0, 1, 1, 1, 0>,
-  ungap<0, 1, 0, 1, 1, 1, 0>, ungap<1, 1, 0, 1, 1, 1, 0>,
-  ungap<0, 0, 1, 1, 1, 1, 0>, ungap<1, 0, 1, 1, 1, 1, 0>,
-  ungap<0, 1, 1, 1, 1, 1, 0>, ungap<1, 1, 1, 1, 1, 1, 0>,
-  ungap<0, 0, 0, 0, 0, 0, 1>, ungap<1, 0, 0, 0, 0, 0, 1>,
-  ungap<0, 1, 0, 0, 0, 0, 1>, ungap<1, 1, 0, 0, 0, 0, 1>,
-  ungap<0, 0, 1, 0, 0, 0, 1>, ungap<1, 0, 1, 0, 0, 0, 1>,
-  ungap<0, 1, 1, 0, 0, 0, 1>, ungap<1, 1, 1, 0, 0, 0, 1>,
-  ungap<0, 0, 0, 1, 0, 0, 1>, ungap<1, 0, 0, 1, 0, 0, 1>,
-  ungap<0, 1, 0, 1, 0, 0, 1>, ungap<1, 1, 0, 1, 0, 0, 1>,
-  ungap<0, 0, 1, 1, 0, 0, 1>, ungap<1, 0, 1, 1, 0, 0, 1>,
-  ungap<0, 1, 1, 1, 0, 0, 1>, ungap<1, 1, 1, 1, 0, 0, 1>,
-  ungap<0, 0, 0, 0, 1, 0, 1>, ungap<1, 0, 0, 0, 1, 0, 1>,
-  ungap<0, 1, 0, 0, 1, 0, 1>, ungap<1, 1, 0, 0, 1, 0, 1>,
-  ungap<0, 0, 1, 0, 1, 0, 1>, ungap<1, 0, 1, 0, 1, 0, 1>,
-  ungap<0, 1, 1, 0, 1, 0, 1>, ungap<1, 1, 1, 0, 1, 0, 1>,
-  ungap<0, 0, 0, 1, 1, 0, 1>, ungap<1, 0, 0, 1, 1, 0, 1>,
-  ungap<0, 1, 0, 1, 1, 0, 1>, ungap<1, 1, 0, 1, 1, 0, 1>,
-  ungap<0, 0, 1, 1, 1, 0, 1>, ungap<1, 0, 1, 1, 1, 0, 1>,
-  ungap<0, 1, 1, 1, 1, 0, 1>, ungap<1, 1, 1, 1, 1, 0, 1>,
-  ungap<0, 0, 0, 0, 0, 1, 1>, ungap<1, 0, 0, 0, 0, 1, 1>,
-  ungap<0, 1, 0, 0, 0, 1, 1>, ungap<1, 1, 0, 0, 0, 1, 1>,
-  ungap<0, 0, 1, 0, 0, 1, 1>, ungap<1, 0, 1, 0, 0, 1, 1>,
-  ungap<0, 1, 1, 0, 0, 1, 1>, ungap<1, 1, 1, 0, 0, 1, 1>,
-  ungap<0, 0, 0, 1, 0, 1, 1>, ungap<1, 0, 0, 1, 0, 1, 1>,
-  ungap<0, 1, 0, 1, 0, 1, 1>, ungap<1, 1, 0, 1, 0, 1, 1>,
-  ungap<0, 0, 1, 1, 0, 1, 1>, ungap<1, 0, 1, 1, 0, 1, 1>,
-  ungap<0, 1, 1, 1, 0, 1, 1>, ungap<1, 1, 1, 1, 0, 1, 1>,
-  ungap<0, 0, 0, 0, 1, 1, 1>, ungap<1, 0, 0, 0, 1, 1, 1>,
-  ungap<0, 1, 0, 0, 1, 1, 1>, ungap<1, 1, 0, 0, 1, 1, 1>,
-  ungap<0, 0, 1, 0, 1, 1, 1>, ungap<1, 0, 1, 0, 1, 1, 1>,
-  ungap<0, 1, 1, 0, 1, 1, 1>, ungap<1, 1, 1, 0, 1, 1, 1>,
-  ungap<0, 0, 0, 1, 1, 1, 1>, ungap<1, 0, 0, 1, 1, 1, 1>,
-  ungap<0, 1, 0, 1, 1, 1, 1>, ungap<1, 1, 0, 1, 1, 1, 1>,
-  ungap<0, 0, 1, 1, 1, 1, 1>, ungap<1, 0, 1, 1, 1, 1, 1>,
-  ungap<0, 1, 1, 1, 1, 1, 1>, ungap<1, 1, 1, 1, 1, 1, 1>
-};
+const static function<u8(const u8 *__restrict const, const u32,
+                         u32 *__restrict const)>
+    ungaps[256] = {ungap<0, 0, 0, 0, 0, 0, 0>, ungap<1, 0, 0, 0, 0, 0, 0>,
+                   ungap<0, 1, 0, 0, 0, 0, 0>, ungap<1, 1, 0, 0, 0, 0, 0>,
+                   ungap<0, 0, 1, 0, 0, 0, 0>, ungap<1, 0, 1, 0, 0, 0, 0>,
+                   ungap<0, 1, 1, 0, 0, 0, 0>, ungap<1, 1, 1, 0, 0, 0, 0>,
+                   ungap<0, 0, 0, 1, 0, 0, 0>, ungap<1, 0, 0, 1, 0, 0, 0>,
+                   ungap<0, 1, 0, 1, 0, 0, 0>, ungap<1, 1, 0, 1, 0, 0, 0>,
+                   ungap<0, 0, 1, 1, 0, 0, 0>, ungap<1, 0, 1, 1, 0, 0, 0>,
+                   ungap<0, 1, 1, 1, 0, 0, 0>, ungap<1, 1, 1, 1, 0, 0, 0>,
+                   ungap<0, 0, 0, 0, 1, 0, 0>, ungap<1, 0, 0, 0, 1, 0, 0>,
+                   ungap<0, 1, 0, 0, 1, 0, 0>, ungap<1, 1, 0, 0, 1, 0, 0>,
+                   ungap<0, 0, 1, 0, 1, 0, 0>, ungap<1, 0, 1, 0, 1, 0, 0>,
+                   ungap<0, 1, 1, 0, 1, 0, 0>, ungap<1, 1, 1, 0, 1, 0, 0>,
+                   ungap<0, 0, 0, 1, 1, 0, 0>, ungap<1, 0, 0, 1, 1, 0, 0>,
+                   ungap<0, 1, 0, 1, 1, 0, 0>, ungap<1, 1, 0, 1, 1, 0, 0>,
+                   ungap<0, 0, 1, 1, 1, 0, 0>, ungap<1, 0, 1, 1, 1, 0, 0>,
+                   ungap<0, 1, 1, 1, 1, 0, 0>, ungap<1, 1, 1, 1, 1, 0, 0>,
+                   ungap<0, 0, 0, 0, 0, 1, 0>, ungap<1, 0, 0, 0, 0, 1, 0>,
+                   ungap<0, 1, 0, 0, 0, 1, 0>, ungap<1, 1, 0, 0, 0, 1, 0>,
+                   ungap<0, 0, 1, 0, 0, 1, 0>, ungap<1, 0, 1, 0, 0, 1, 0>,
+                   ungap<0, 1, 1, 0, 0, 1, 0>, ungap<1, 1, 1, 0, 0, 1, 0>,
+                   ungap<0, 0, 0, 1, 0, 1, 0>, ungap<1, 0, 0, 1, 0, 1, 0>,
+                   ungap<0, 1, 0, 1, 0, 1, 0>, ungap<1, 1, 0, 1, 0, 1, 0>,
+                   ungap<0, 0, 1, 1, 0, 1, 0>, ungap<1, 0, 1, 1, 0, 1, 0>,
+                   ungap<0, 1, 1, 1, 0, 1, 0>, ungap<1, 1, 1, 1, 0, 1, 0>,
+                   ungap<0, 0, 0, 0, 1, 1, 0>, ungap<1, 0, 0, 0, 1, 1, 0>,
+                   ungap<0, 1, 0, 0, 1, 1, 0>, ungap<1, 1, 0, 0, 1, 1, 0>,
+                   ungap<0, 0, 1, 0, 1, 1, 0>, ungap<1, 0, 1, 0, 1, 1, 0>,
+                   ungap<0, 1, 1, 0, 1, 1, 0>, ungap<1, 1, 1, 0, 1, 1, 0>,
+                   ungap<0, 0, 0, 1, 1, 1, 0>, ungap<1, 0, 0, 1, 1, 1, 0>,
+                   ungap<0, 1, 0, 1, 1, 1, 0>, ungap<1, 1, 0, 1, 1, 1, 0>,
+                   ungap<0, 0, 1, 1, 1, 1, 0>, ungap<1, 0, 1, 1, 1, 1, 0>,
+                   ungap<0, 1, 1, 1, 1, 1, 0>, ungap<1, 1, 1, 1, 1, 1, 0>,
+                   ungap<0, 0, 0, 0, 0, 0, 1>, ungap<1, 0, 0, 0, 0, 0, 1>,
+                   ungap<0, 1, 0, 0, 0, 0, 1>, ungap<1, 1, 0, 0, 0, 0, 1>,
+                   ungap<0, 0, 1, 0, 0, 0, 1>, ungap<1, 0, 1, 0, 0, 0, 1>,
+                   ungap<0, 1, 1, 0, 0, 0, 1>, ungap<1, 1, 1, 0, 0, 0, 1>,
+                   ungap<0, 0, 0, 1, 0, 0, 1>, ungap<1, 0, 0, 1, 0, 0, 1>,
+                   ungap<0, 1, 0, 1, 0, 0, 1>, ungap<1, 1, 0, 1, 0, 0, 1>,
+                   ungap<0, 0, 1, 1, 0, 0, 1>, ungap<1, 0, 1, 1, 0, 0, 1>,
+                   ungap<0, 1, 1, 1, 0, 0, 1>, ungap<1, 1, 1, 1, 0, 0, 1>,
+                   ungap<0, 0, 0, 0, 1, 0, 1>, ungap<1, 0, 0, 0, 1, 0, 1>,
+                   ungap<0, 1, 0, 0, 1, 0, 1>, ungap<1, 1, 0, 0, 1, 0, 1>,
+                   ungap<0, 0, 1, 0, 1, 0, 1>, ungap<1, 0, 1, 0, 1, 0, 1>,
+                   ungap<0, 1, 1, 0, 1, 0, 1>, ungap<1, 1, 1, 0, 1, 0, 1>,
+                   ungap<0, 0, 0, 1, 1, 0, 1>, ungap<1, 0, 0, 1, 1, 0, 1>,
+                   ungap<0, 1, 0, 1, 1, 0, 1>, ungap<1, 1, 0, 1, 1, 0, 1>,
+                   ungap<0, 0, 1, 1, 1, 0, 1>, ungap<1, 0, 1, 1, 1, 0, 1>,
+                   ungap<0, 1, 1, 1, 1, 0, 1>, ungap<1, 1, 1, 1, 1, 0, 1>,
+                   ungap<0, 0, 0, 0, 0, 1, 1>, ungap<1, 0, 0, 0, 0, 1, 1>,
+                   ungap<0, 1, 0, 0, 0, 1, 1>, ungap<1, 1, 0, 0, 0, 1, 1>,
+                   ungap<0, 0, 1, 0, 0, 1, 1>, ungap<1, 0, 1, 0, 0, 1, 1>,
+                   ungap<0, 1, 1, 0, 0, 1, 1>, ungap<1, 1, 1, 0, 0, 1, 1>,
+                   ungap<0, 0, 0, 1, 0, 1, 1>, ungap<1, 0, 0, 1, 0, 1, 1>,
+                   ungap<0, 1, 0, 1, 0, 1, 1>, ungap<1, 1, 0, 1, 0, 1, 1>,
+                   ungap<0, 0, 1, 1, 0, 1, 1>, ungap<1, 0, 1, 1, 0, 1, 1>,
+                   ungap<0, 1, 1, 1, 0, 1, 1>, ungap<1, 1, 1, 1, 0, 1, 1>,
+                   ungap<0, 0, 0, 0, 1, 1, 1>, ungap<1, 0, 0, 0, 1, 1, 1>,
+                   ungap<0, 1, 0, 0, 1, 1, 1>, ungap<1, 1, 0, 0, 1, 1, 1>,
+                   ungap<0, 0, 1, 0, 1, 1, 1>, ungap<1, 0, 1, 0, 1, 1, 1>,
+                   ungap<0, 1, 1, 0, 1, 1, 1>, ungap<1, 1, 1, 0, 1, 1, 1>,
+                   ungap<0, 0, 0, 1, 1, 1, 1>, ungap<1, 0, 0, 1, 1, 1, 1>,
+                   ungap<0, 1, 0, 1, 1, 1, 1>, ungap<1, 1, 0, 1, 1, 1, 1>,
+                   ungap<0, 0, 1, 1, 1, 1, 1>, ungap<1, 0, 1, 1, 1, 1, 1>,
+                   ungap<0, 1, 1, 1, 1, 1, 1>, ungap<1, 1, 1, 1, 1, 1, 1>,
+                   ungap<0, 0, 0, 0, 0, 0, 0>, ungap<1, 0, 0, 0, 0, 0, 0>,
+                   ungap<0, 1, 0, 0, 0, 0, 0>, ungap<1, 1, 0, 0, 0, 0, 0>,
+                   ungap<0, 0, 1, 0, 0, 0, 0>, ungap<1, 0, 1, 0, 0, 0, 0>,
+                   ungap<0, 1, 1, 0, 0, 0, 0>, ungap<1, 1, 1, 0, 0, 0, 0>,
+                   ungap<0, 0, 0, 1, 0, 0, 0>, ungap<1, 0, 0, 1, 0, 0, 0>,
+                   ungap<0, 1, 0, 1, 0, 0, 0>, ungap<1, 1, 0, 1, 0, 0, 0>,
+                   ungap<0, 0, 1, 1, 0, 0, 0>, ungap<1, 0, 1, 1, 0, 0, 0>,
+                   ungap<0, 1, 1, 1, 0, 0, 0>, ungap<1, 1, 1, 1, 0, 0, 0>,
+                   ungap<0, 0, 0, 0, 1, 0, 0>, ungap<1, 0, 0, 0, 1, 0, 0>,
+                   ungap<0, 1, 0, 0, 1, 0, 0>, ungap<1, 1, 0, 0, 1, 0, 0>,
+                   ungap<0, 0, 1, 0, 1, 0, 0>, ungap<1, 0, 1, 0, 1, 0, 0>,
+                   ungap<0, 1, 1, 0, 1, 0, 0>, ungap<1, 1, 1, 0, 1, 0, 0>,
+                   ungap<0, 0, 0, 1, 1, 0, 0>, ungap<1, 0, 0, 1, 1, 0, 0>,
+                   ungap<0, 1, 0, 1, 1, 0, 0>, ungap<1, 1, 0, 1, 1, 0, 0>,
+                   ungap<0, 0, 1, 1, 1, 0, 0>, ungap<1, 0, 1, 1, 1, 0, 0>,
+                   ungap<0, 1, 1, 1, 1, 0, 0>, ungap<1, 1, 1, 1, 1, 0, 0>,
+                   ungap<0, 0, 0, 0, 0, 1, 0>, ungap<1, 0, 0, 0, 0, 1, 0>,
+                   ungap<0, 1, 0, 0, 0, 1, 0>, ungap<1, 1, 0, 0, 0, 1, 0>,
+                   ungap<0, 0, 1, 0, 0, 1, 0>, ungap<1, 0, 1, 0, 0, 1, 0>,
+                   ungap<0, 1, 1, 0, 0, 1, 0>, ungap<1, 1, 1, 0, 0, 1, 0>,
+                   ungap<0, 0, 0, 1, 0, 1, 0>, ungap<1, 0, 0, 1, 0, 1, 0>,
+                   ungap<0, 1, 0, 1, 0, 1, 0>, ungap<1, 1, 0, 1, 0, 1, 0>,
+                   ungap<0, 0, 1, 1, 0, 1, 0>, ungap<1, 0, 1, 1, 0, 1, 0>,
+                   ungap<0, 1, 1, 1, 0, 1, 0>, ungap<1, 1, 1, 1, 0, 1, 0>,
+                   ungap<0, 0, 0, 0, 1, 1, 0>, ungap<1, 0, 0, 0, 1, 1, 0>,
+                   ungap<0, 1, 0, 0, 1, 1, 0>, ungap<1, 1, 0, 0, 1, 1, 0>,
+                   ungap<0, 0, 1, 0, 1, 1, 0>, ungap<1, 0, 1, 0, 1, 1, 0>,
+                   ungap<0, 1, 1, 0, 1, 1, 0>, ungap<1, 1, 1, 0, 1, 1, 0>,
+                   ungap<0, 0, 0, 1, 1, 1, 0>, ungap<1, 0, 0, 1, 1, 1, 0>,
+                   ungap<0, 1, 0, 1, 1, 1, 0>, ungap<1, 1, 0, 1, 1, 1, 0>,
+                   ungap<0, 0, 1, 1, 1, 1, 0>, ungap<1, 0, 1, 1, 1, 1, 0>,
+                   ungap<0, 1, 1, 1, 1, 1, 0>, ungap<1, 1, 1, 1, 1, 1, 0>,
+                   ungap<0, 0, 0, 0, 0, 0, 1>, ungap<1, 0, 0, 0, 0, 0, 1>,
+                   ungap<0, 1, 0, 0, 0, 0, 1>, ungap<1, 1, 0, 0, 0, 0, 1>,
+                   ungap<0, 0, 1, 0, 0, 0, 1>, ungap<1, 0, 1, 0, 0, 0, 1>,
+                   ungap<0, 1, 1, 0, 0, 0, 1>, ungap<1, 1, 1, 0, 0, 0, 1>,
+                   ungap<0, 0, 0, 1, 0, 0, 1>, ungap<1, 0, 0, 1, 0, 0, 1>,
+                   ungap<0, 1, 0, 1, 0, 0, 1>, ungap<1, 1, 0, 1, 0, 0, 1>,
+                   ungap<0, 0, 1, 1, 0, 0, 1>, ungap<1, 0, 1, 1, 0, 0, 1>,
+                   ungap<0, 1, 1, 1, 0, 0, 1>, ungap<1, 1, 1, 1, 0, 0, 1>,
+                   ungap<0, 0, 0, 0, 1, 0, 1>, ungap<1, 0, 0, 0, 1, 0, 1>,
+                   ungap<0, 1, 0, 0, 1, 0, 1>, ungap<1, 1, 0, 0, 1, 0, 1>,
+                   ungap<0, 0, 1, 0, 1, 0, 1>, ungap<1, 0, 1, 0, 1, 0, 1>,
+                   ungap<0, 1, 1, 0, 1, 0, 1>, ungap<1, 1, 1, 0, 1, 0, 1>,
+                   ungap<0, 0, 0, 1, 1, 0, 1>, ungap<1, 0, 0, 1, 1, 0, 1>,
+                   ungap<0, 1, 0, 1, 1, 0, 1>, ungap<1, 1, 0, 1, 1, 0, 1>,
+                   ungap<0, 0, 1, 1, 1, 0, 1>, ungap<1, 0, 1, 1, 1, 0, 1>,
+                   ungap<0, 1, 1, 1, 1, 0, 1>, ungap<1, 1, 1, 1, 1, 0, 1>,
+                   ungap<0, 0, 0, 0, 0, 1, 1>, ungap<1, 0, 0, 0, 0, 1, 1>,
+                   ungap<0, 1, 0, 0, 0, 1, 1>, ungap<1, 1, 0, 0, 0, 1, 1>,
+                   ungap<0, 0, 1, 0, 0, 1, 1>, ungap<1, 0, 1, 0, 0, 1, 1>,
+                   ungap<0, 1, 1, 0, 0, 1, 1>, ungap<1, 1, 1, 0, 0, 1, 1>,
+                   ungap<0, 0, 0, 1, 0, 1, 1>, ungap<1, 0, 0, 1, 0, 1, 1>,
+                   ungap<0, 1, 0, 1, 0, 1, 1>, ungap<1, 1, 0, 1, 0, 1, 1>,
+                   ungap<0, 0, 1, 1, 0, 1, 1>, ungap<1, 0, 1, 1, 0, 1, 1>,
+                   ungap<0, 1, 1, 1, 0, 1, 1>, ungap<1, 1, 1, 1, 0, 1, 1>,
+                   ungap<0, 0, 0, 0, 1, 1, 1>, ungap<1, 0, 0, 0, 1, 1, 1>,
+                   ungap<0, 1, 0, 0, 1, 1, 1>, ungap<1, 1, 0, 0, 1, 1, 1>,
+                   ungap<0, 0, 1, 0, 1, 1, 1>, ungap<1, 0, 1, 0, 1, 1, 1>,
+                   ungap<0, 1, 1, 0, 1, 1, 1>, ungap<1, 1, 1, 0, 1, 1, 1>,
+                   ungap<0, 0, 0, 1, 1, 1, 1>, ungap<1, 0, 0, 1, 1, 1, 1>,
+                   ungap<0, 1, 0, 1, 1, 1, 1>, ungap<1, 1, 0, 1, 1, 1, 1>,
+                   ungap<0, 0, 1, 1, 1, 1, 1>, ungap<1, 0, 1, 1, 1, 1, 1>,
+                   ungap<0, 1, 1, 1, 1, 1, 1>, ungap<1, 1, 1, 1, 1, 1, 1>};
 
 static u32 decode(const u8 *__restrict const in, const u32 size,
-                         u32 *__restrict const out) {
+                  u32 *__restrict const out) {
   if (size > 0u) {
     u32 out_offset = 0;
     u32 in_offset = 0;
@@ -430,8 +429,8 @@ static u32 decode(const u8 *__restrict const in, const u32 size,
           reg = _mm256_load_si256(reinterpret_cast<__m256icpc>(in + in_offset));
           const auto for_store = _mm256_add_epi32(
               prev, _mm256_and_si256(
-                  reg, _mm256_load_si256(reinterpret_cast<__m256icpc>(
-                                             mask32r[pack_size]))));
+                        reg, _mm256_load_si256(reinterpret_cast<__m256icpc>(
+                                 mask32r[pack_size]))));
           _mm256_stream_si256(reinterpret_cast<__m256ipc>(out + out_offset),
                               for_store);
           prev = _mm256_permutevar8x32_epi32(for_store, broadcast_mask);
@@ -442,7 +441,7 @@ static u32 decode(const u8 *__restrict const in, const u32 size,
               prev,
               _mm256_and_si256(_mm256_srli_epi32(reg, n_used_bits),
                                _mm256_load_si256(reinterpret_cast<__m256icpc>(
-                                                     mask32r[pack_size]))));
+                                   mask32r[pack_size]))));
           _mm256_stream_si256(reinterpret_cast<__m256ipc>(out + out_offset),
                               for_store);
           prev = _mm256_permutevar8x32_epi32(for_store, broadcast_mask);
@@ -478,8 +477,7 @@ static u32 decode(const u8 *__restrict const in, const u32 size,
 }
 
 template <typename Func>
-static u32 traverse(const u8 *__restrict const in, const u32 size,
-                           Func f) {
+static u32 traverse(const u8 *__restrict const in, const u32 size, Func f) {
   if (size > 0u) {
     u32 out_offset = 0;
     u32 in_offset = 0;
@@ -524,8 +522,8 @@ static u32 traverse(const u8 *__restrict const in, const u32 size,
           reg = _mm256_load_si256(reinterpret_cast<__m256icpc>(in + in_offset));
           const auto for_store = _mm256_add_epi32(
               prev, _mm256_and_si256(
-                  reg, _mm256_load_si256(reinterpret_cast<__m256icpc>(
-                                             mask32r[pack_size]))));
+                        reg, _mm256_load_si256(reinterpret_cast<__m256icpc>(
+                                 mask32r[pack_size]))));
           _mm256_store_si256(reinterpret_cast<__m256ipc>(out), for_store);
           for (u32 j = 0; j < LENGTH; j++) {
             f(out[j], out_offset + j);
@@ -538,7 +536,7 @@ static u32 traverse(const u8 *__restrict const in, const u32 size,
               prev,
               _mm256_and_si256(_mm256_srli_epi32(reg, n_used_bits),
                                _mm256_load_si256(reinterpret_cast<__m256icpc>(
-                                                     mask32r[pack_size]))));
+                                   mask32r[pack_size]))));
           _mm256_store_si256(reinterpret_cast<__m256ipc>(out), for_store);
           for (u32 j = 0; j < LENGTH; j++) {
             f(out[j], out_offset + j);

@@ -103,16 +103,14 @@ void print(const std::string &start_key, const std::string &end_key) {
                    1000.0,
                getBytesReadFromMC(start, end) / 1024.0 / 1024.0 / 1024.0,
                getBytesWrittenToMC(start, end) / 1024.0 / 1024.0 / 1024.0,
-               getL2CacheMisses(start, end),
-               getL3CacheMisses(start, end),
-               getL2CacheHitRatio(start, end),
-               getL3CacheHitRatio(start, end),
-               getInstructionsRetired(start, end),
-               getIPC(start, end));
+               getL2CacheMisses(start, end), getL3CacheMisses(start, end),
+               getL2CacheHitRatio(start, end), getL3CacheHitRatio(start, end),
+               getInstructionsRetired(start, end), getIPC(start, end));
 #else
   logger->info("\n"
                "[{} -> {}]\n"
-               "ElapsedTime[sec]:\t{}", start_key, end_key,
+               "ElapsedTime[sec]:\t{}",
+               start_key, end_key,
                std::chrono::duration_cast<std::chrono::milliseconds>(
                    scores[end_key]->time - scores[start_key]->time)
                        .count() /

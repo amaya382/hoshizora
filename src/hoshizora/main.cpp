@@ -32,25 +32,47 @@ void main(int argc, char *argv[]) {
   loop::quit();
 
   compress::a32_vector<u32> ints;
-  ints.reserve(3000000);
-  compress::a32_vector<u32> offsets = {0, 1000000, 2000000, 3000000};
+  ints.reserve(3000001);
+  compress::a32_vector<u32> offsets = {0, 1000000, 2000000, 3000001};
   for (u32 j = 0; j < 3; ++j) {
     for (u32 i = 0; i < 1000000; ++i) {
       ints.emplace_back(i);
     }
   }
+  ints.emplace_back(0);
+
   compress::a32_vector<u8> compressed(6000000);
   debug::point("encstart");
   compress::multiple::encode(ints.data(), offsets.data(), 3, compressed.data());
   debug::point("encend");
-  compress::a32_vector<u32> decompressed(3000000);
+  compress::a32_vector<u32> decompressed((3000001 + 31) / 32 * 32);
   compress::a32_vector<u32> decompressed_offsets(8);
   debug::point("decstart");
   compress::multiple::decode(compressed.data(), 3, decompressed.data(),
                              decompressed_offsets.data());
   debug::point("decend");
+
   debug::print("encstart", "encend");
   debug::print("decstart", "decend");
+
+  u32 consumed = 0;
+  debug::point("enc start");
+  for (u32 i = 0; i < 100; ++i){
+    consumed += compress::multiple::encode(ints.data(), offsets.data(), 3, compressed.data());
+  }
+  debug::point("enc end");
+
+  u32 consumed0 = 0;
+  debug::point("est start");
+  for (u32 i = 0; i < 100; ++i) {
+    consumed0 += compress::multiple::estimate(ints.data(), offsets.data(), 3);
+  }
+  debug::point("est end");
+
+  debug::logger->info("ans: {}, est: {}", consumed, consumed0);
+  debug::print("enc start", "enc end");
+  debug::print("est start", "est end");
+
 }
 } // namespace hoshizora
 
