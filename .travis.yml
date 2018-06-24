@@ -1,9 +1,21 @@
 language: cpp
-compiler: clang++
-script:
-  - git submodule init
-  - git submodule update
-  - make release
+matrix:
+  include:
+    - os: linux
+      dist: bionic
+      sudo: required
+      compiler: clang++
+      script:
+        - git submodule init
+        - git submodule update
+        - make release
+      addons:
+        apt:
+          packages:
+            - make
+            - cmake
+            - python3
+            - libboost-all-dev
 deploy:
   provider: pypi
   user: amaya
