@@ -1,0 +1,16 @@
+language: cpp
+compiler: clang++
+script:
+  - git submodule init
+  - git submodule update
+  - make release
+deploy:
+  provider: pypi
+  user: amaya
+  on:
+    repo: hoshizora-project/hoshizora
+    branch: ci-test
+    python: 3.6
+    #distributions: "sdist bdist_wheel"
+  password:
+    secure: bpB6ewEqbbcphDr74pOtFr12x5Gs0H74dsrZYVkaJgoGqOHNcWQueIk0TS14TL8MfsyrdEPBpSE3TsGV9eHm7oLKcmti9WcTrM+SONjsMu6HZz/AsuAj6XDaJ5pY8YhFUJ9nLzlLzq+PA7Q5Sh77v0p+DITCZXad1bck28UbxNZkMu+LjohJwR8axy3e+PaOC2yacyxVqxRPEWWBcxiG0/FHhy9ewg23fL+0KsM7M7RdrlObywEDPfpxhyuABZ4Kyawh8l/A7iLhxwpVb35iUYSVBdqw4lBaphOzcVaU/nzRY9GfXk4DU9zymSMz1fb0MLFUBepxKkV7cNv3F3ldkEzxDD6crCBTUsKUAjosfuf0vsuyba4BLO3yXeCuD1soApTmX0Fs7j/NO6tnI9QTlaabVi+4SqS7WJLBWfQAzREK1sJkJO1cV/crhguNZxKjUgbCRSZXeUG24YU4Z4yfw6o0AgYJ4/uQenma6xiY/DCyJNQ4HlctiCr2UP1Vg01CsK0Zz/kAdn3t96sPL4VWOAX1vMYwPsKZS4vjslRUXSihtIw2z0C3Pcxumpj/WccwVlhSqJNuqVJOyP+xx2JTrbE38n4arYKaWWfpRbmjw+tIKdMRVK36fA3G7jadfCcsKz9d6tc6LTiiiEfJbURYk9OwBtbhO+UVt6676IzGdiw=
