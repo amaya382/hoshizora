@@ -9,14 +9,13 @@ matrix:
     - os: linux
       language: generic
       env:
-        global:
-          PIP: pip3
-          CIBW_MANYLINUX1_X86_64_IMAGE: ubuntu:bionic
-          CIBW_BEFORE_BUILD: 'apt update && apt install -y python3 python3-pip make cmake clang-5.0 libboost-all-dev libnuma-dev'
+        PIP: pip3
 
 env:
   global:
-    - TWINE_USERNAME=amaya
+    TWINE_USERNAME: amaya
+    CIBW_MANYLINUX1_X86_64_IMAGE: ubuntu:bionic
+    CIBW_BEFORE_BUILD: 'apt update && apt install -y python3 python3-pip make cmake clang-5.0 libboost-all-dev libnuma-dev'
 
 script:
   - pip install cibuildwheel==0.9.1
