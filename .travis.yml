@@ -14,8 +14,8 @@ env:
   global:
     - TWINE_USERNAME=amaya
     - CIBW_SKIP="cp27-* cp33-*"
-    - CIBW_MANYLINUX1_X86_64_IMAGE=ubuntu:bionic
-    - CIBW_BEFORE_BUILD="apt update && apt install -y make cmake clang-5.0 libboost-all-dev libnuma-dev"
+    - CIBW_MANYLINUX1_X86_64_IMAGE=hoshizora/manylinux1-clang-x86_64
+    - CIBW_BEFORE_BUILD="yum update && yum install -y boost148 boost148-filesystem boost148-system numactl-devel && mkdir -p /tmp/manylinux1-clang && cd /tmp/manylinux1-clang && wget https://github.com/hoshizora-project/docker-manylinux1-clang/raw/master/Dockerfile-x86_64 -O Dockerfile && docker build -t hoshizora/manylinux1-clang-x86_64 . && cd -"
 
 script:
   - pip install cibuildwheel==0.9.1
